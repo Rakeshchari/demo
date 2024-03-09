@@ -1,0 +1,52 @@
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+    }
+}
+
+subprojects {
+    afterEvaluate { proj ->
+        if (proj.hasProperty('android')) {
+            android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+
+                if (proj.hasProperty('kotlin')) {
+                    kotlinOptions {
+                        jvmTarget = JavaVersion.VERSION_1_8.toString()
+                    }
+                }
+
+                ndkVersion '21.4.7075529'
+            }
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    ext {
+        // configure versions used by dependencies to harmonize and update easily across all components
+
+        // Android SDK
+        compileSdkVersion = 31
+        minSdkVersion = 21
+        targetSdkVersion = 31
+
+        // Android libraries
+        appcompatVersion = '1.4.1'
+    }
+}
+
